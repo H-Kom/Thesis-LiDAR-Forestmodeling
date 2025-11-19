@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <system>
+    <path>
+      <home/>
+      <database>database</database>
+      <lip>lip</lip>
+      <output>output</output>
+    </path>
+    <database>
+      <in>all_species_database.sqlite</in>
+      <out>RCP26_output.sqlite</out>
+      <!-- _$date$ -->
+      <climate>RCP26_climate.sqlite</climate>
+    </database>
+    <logging>
+      <logTarget>file</logTarget>
+      <logFile>log/log.txt</logFile>
+      <flush>false</flush>
+    </logging>
+    <settings>
+      <multithreading>false</multithreading>
+      <debugOutput>1</debugOutput>
+      <debugOutputAutoSave>true</debugOutputAutoSave>
+      <randomSeed>161</randomSeed>
+      <expressionLinearizationEnabled>true</expressionLinearizationEnabled>
+      <logLevel>Debug</logLevel>
+      <responsive>false</responsive>
+      <threadCount>8</threadCount>
+    </settings>
+    <javascript>
+      <fileName/>
+    </javascript>
+  </system>
+  <model>
+    <settings>
+      <regenerationEnabled>true</regenerationEnabled>
+      <mortalityEnabled>true</mortalityEnabled>
+      <growthEnabled>true</growthEnabled>
+      <carbonCycleEnabled>true</carbonCycleEnabled>
+      <epsilon>2.7</epsilon>
+      <lightExtinctionCoefficient>0.6</lightExtinctionCoefficient>
+      <lightExtinctionCoefficientOpacity>0.6</lightExtinctionCoefficientOpacity>
+      <temperatureTau>6</temperatureTau>
+      <airDensity>1.204</airDensity>
+      <laiThresholdForClosedStands>3</laiThresholdForClosedStands>
+      <boundaryLayerConductance>0.2</boundaryLayerConductance>
+      <!-- default:4 -->
+      <interceptionStorageNeedle>4</interceptionStorageNeedle>
+      <!--default: 2 -->
+      <interceptionStorageBroadleaf>2</interceptionStorageBroadleaf>
+      <!-- temperature for snow melt / snowing-->
+      <snowMeltTemperature>0</snowMeltTemperature>
+      <waterUseSoilSaturation>false</waterUseSoilSaturation>
+      <!-- using not only N to determine beloground allocation -->
+      <usePARFractionBelowGroundAllocation>true</usePARFractionBelowGroundAllocation>
+      <groundVegetationLAI>1</groundVegetationLAI>
+      <groundVegetationPsiMin>-1.5</groundVegetationPsiMin>
+      <snowDensity>300</snowDensity>
+      <snowInitialDepth>0</snowInitialDepth>
+      <seedDispersal>
+        <seedBelt>
+          <!-- An example seed belt definition; not particularly useful for this example application -->
+          <enabled>false</enabled>
+        </seedBelt>
+        <dumpSeedMapsEnabled>false</dumpSeedMapsEnabled>
+        <dumpSeedMapsPath/>
+        <externalSeedEnabled>true</externalSeedEnabled>
+        <externalSeedBackgroundInput/>
+        <externalSeedSource/>
+        <!-- direction of external seeds. specifiy as list of n,e,s,w (north, east, south, west). if empty or missing, seeds enter from all directions. -->
+        <externalSeedSpecies>bepe, fasy, psme, quro, algl, piab, pisy, lade, abal, acps, frex, cabe, saca, potr</externalSeedSpecies>
+        <!-- This specifies a species-specific special "buffer", i.e. it defines the distance between the external seed input and the edge of the simulation area. Unit is "seed pixels", i.e. currently 20m. Specify as a comma-separated list of alternately species name and buffer-width (e.g. "Psme, 2, Abmi, 1" -> 40m for Psme, 20m for Abmi). No special buffer is used for species not in the list. Note: the remaining seed source must be >1px due to an implementation detail of the dispersal routine. -->
+        <externalSeedBuffer/>
+        <recruitmentDimensionVariation>0.1</recruitmentDimensionVariation>
+        <longDistanceDispersal>
+          <rings/>
+          <thresholdArea>0.0001</thresholdArea>
+          <thresholdLDD>0.0000001</thresholdLDD>
+          <LDDSeedlings>0.5</LDDSeedlings>
+        </longDistanceDispersal>
+      </seedDispersal>
+      <soil>
+        <!-- CN ratio of soil microbes -->
+        <qb>5</qb>
+        <!-- CN ratio of SOM -->
+        <qh>14.5</qh>
+        <!-- percent of the mineralized nitrogen in O not available for plants but leached -->
+        <leaching>0.47</leaching>
+        <!-- microbal efficiency in the labile pool, auxiliary parameter -->
+        <el>0.152</el>
+        <!-- microbal efficiency in the refractory pool, auxiliary parameter -->
+        <er>0.319</er>
+        <!-- class break between classes 1 and 2 for standing snags (dbh, cm) -->
+        <swdDBHClass12>20</swdDBHClass12>
+        <!-- class break between classes 2 and 3 for standing snags (dbh, cm) -->
+        <swdDBHClass23>100</swdDBHClass23>
+        <!-- if true, iLand utilizes the soil-model N for species responses. -->
+        <useDynamicAvailableNitrogen>false</useDynamicAvailableNitrogen>
+        <!--derived from Zöbelboden-data. Hülber et al. reported values a bit lower than that for the same area: http://onlinelibrary.wiley.com/doi/10.3170/2008-7-18489/pdf -->
+        <nitrogenDeposition>21.8</nitrogenDeposition>
+      </soil>
+      <grass>
+        <enabled>false</enabled>
+      </grass>
+      <permafrost>
+        <enabled>false</enabled>
+      </permafrost>
+      <browsing>
+        <enabled>false</enabled>
+        <!-- Scaling factor modifying the base probability (1=100% of the species specific parameter)-->
+        <browsingPressure>1</browsingPressure>
+      </browsing>
+      <svdStates>
+        <enabled>false</enabled>
+      </svdStates>
+    </settings>
+    <species>
+      <source>species</source>
+      <reader>readerstamp.bin</reader>
+      <nitrogenResponseClasses>
+        <class_1_a>-0.045</class_1_a>
+        <class_1_b>10</class_1_b>
+        <class_2_a>-0.055</class_2_a>
+        <class_2_b>25</class_2_b>
+        <class_3_a>-0.065</class_3_a>
+        <class_3_b>40</class_3_b>
+      </nitrogenResponseClasses>
+      <CO2Response>
+        <p0>1</p0>
+        <baseConcentration>380</baseConcentration>
+        <compensationPoint>80</compensationPoint>
+        <beta0>0.3</beta0>
+      </CO2Response>
+      <lightResponse>
+        <shadeTolerant>min(10*lri,max(0.1613*lri+0.7871,lri))</shadeTolerant>
+        <shadeIntolerant>1-exp(-5.5*(lri-0.05))</shadeIntolerant>
+        <LRImodifier>exp(ln(lri)/0.5*(1-0.5*relH))</LRImodifier>
+      </lightResponse>
+      <phenology>
+        <!-- not supported by settings editor-->
+        <type id="1">
+          <!-- deciduous broadleaved -->
+          <vpdMin>0.9</vpdMin>
+          <vpdMax>4.1</vpdMax>
+          <dayLengthMin>10</dayLengthMin>
+          <dayLengthMax>11</dayLengthMax>
+          <tempMin>-2</tempMin>
+          <tempMax>5</tempMax>
+        </type>
+        <type id="2">
+          <!-- deciduous coniferous -->
+          <vpdMin>1</vpdMin>
+          <vpdMax>4.1</vpdMax>
+          <dayLengthMin>10</dayLengthMin>
+          <dayLengthMax>11</dayLengthMax>
+          <tempMin>-4</tempMin>
+          <tempMax>3</tempMax>
+        </type>
+      </phenology>
+      <sprouting>
+        <adultSproutProbability>pimu 0.1</adultSproutProbability>
+      </sprouting>
+    </species>
+    <world>
+      <cellSize>2</cellSize>
+      <!-- 20700 -->
+      <width>3200</width>
+      <!-- 18100  -->
+      <height>3200</height>
+      <buffer>100</buffer>
+      <latitude>53.55</latitude>
+      <resourceUnitsAsGrid>true</resourceUnitsAsGrid>
+      <environmentEnabled>true</environmentEnabled>
+      <environmentMode>grid</environmentMode>
+      <!--  mode: 'grid', 'matrix' -->
+      <environmentGrid>gis/objectid.asc</environmentGrid>
+      <environmentFile>gis/environment.txt</environmentFile>
+      <areaMask>
+        <enabled>false</enabled>
+      </areaMask>
+      <timeEventsEnabled>false</timeEventsEnabled>
+      <!-- time triggered "events", e.g. storms, but also a rise in co2 concentration -->
+      <timeEventsFile>scripts/timeevents_base_1.txt</timeEventsFile>
+      <location>
+        <!-- the following keys specify the location of the 0/0 point of the iLand modeling.
+		   this information is used to transform GIS grids to local coordinates. -->
+        <!--4559008 -->
+        <x>0</x>
+        <!-- 5260625 -->
+        <y>0</y>
+        <z>0</z>
+        <rotation>0</rotation>
+      </location>
+      <standGrid>
+        <enabled>true</enabled>
+        <!-- the 10m stand grid corrected by KB -->
+        <fileName>gis/soid.asc</fileName>
+      </standGrid>
+      <DEM/>
+    </world>
+    <site>
+      <availableNitrogen>70</availableNitrogen>
+      <!-- kg/ha/yr -->
+      <soilDepth>200</soilDepth>
+      <!-- in cm -->
+      <pctSand>82</pctSand>
+      <pctSilt>10</pctSilt>
+      <pctClay>8</pctClay>
+      <youngLabileC>8000</youngLabileC>
+      <youngLabileN>400</youngLabileN>
+      <youngLabileDecompRate>0.25</youngLabileDecompRate>
+      <youngRefractoryC>25000</youngRefractoryC>
+      <youngRefractoryN>100</youngRefractoryN>
+      <youngRefractoryDecompRate>0.07</youngRefractoryDecompRate>
+      <youngLabileAbovegroundFraction>0.7</youngLabileAbovegroundFraction>
+      <youngRefractoryAbovegroundFraction>0.6</youngRefractoryAbovegroundFraction>
+      <somC>100000</somC>
+      <somN>70</somN>
+      <somDecompRate>0.01</somDecompRate>
+      <soilHumificationRate>0.3</soilHumificationRate>
+    </site>
+    <climate>
+      <co2concentration>380</co2concentration>
+      <!-- 'RCP2.6', 'RCP4.5', 'RCP6.0', 'RCP8.5', or 'No' -->
+      <co2pathway>No</co2pathway>
+      <co2startYear>2021</co2startYear>
+      <tableName>climate_1</tableName>
+      <batchYears>80</batchYears>
+      <temperatureShift>0</temperatureShift>
+      <precipitationShift>1</precipitationShift>
+      <randomSamplingEnabled>false</randomSamplingEnabled>
+      <randomSamplingList>70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72,70,71,68,69,61,74,66,60,76,79,62,78,64,75,73,63,67,77,65,72</randomSamplingList>
+      <!-- list of years (0-based index) -->
+      <filter/>
+      <!-- year>2012 -->
+      <microclimate>
+        <enabled>false</enabled>
+      </microclimate>
+    </climate>
+    <initialization>
+      <mode>single</mode>
+      <type>single</type>
+      <randomFunction/>
+      <file>init/tree_init.txt</file>
+      <snags>
+        <swdC>12000</swdC>
+        <swdCN>417.9</swdCN>
+        <swdCount>50</swdCount>
+        <otherC>4000</otherC>
+        <otherCN>22.95</otherCN>
+        <swdDecompRate>0.036</swdDecompRate>
+        <woodDecompRate>0.071</woodDecompRate>
+        <swdHalfLife>13.926</swdHalfLife>
+        <otherAbovegroundFraction>0.2</otherAbovegroundFraction>
+      </snags>
+      <heightGrid>
+        <enabled>false</enabled>
+      </heightGrid>
+    </initialization>
+    <management>
+      <enabled>false</enabled>
+      <file/>
+      <abeEnabled>false</abeEnabled>
+      <abe>
+        <file/>
+        <agentDataFile/>
+      </abe>
+    </management>
+    <parameter>
+      <torus>false</torus>
+      <debug_tree>0</debug_tree>
+      <debug_clear>false</debug_clear>
+      <gpp_per_year>0</gpp_per_year>
+      <debugDumpStamps>false</debugDumpStamps>
+    </parameter>
+  </model>
+  <output>
+    <landscape>
+      <enabled>true</enabled>
+      <condition/>
+    </landscape>
+    <dynamicstand>
+      <!-- output-table -->
+      <enabled>true</enabled>
+      <!-- only write this output every 10 years -->
+      <condition>mod(year,10)=0</condition>
+      <conditionRU/>
+      <rufilter/>
+      <treefilter/>
+      <by_species>true</by_species>
+      <by_ru>true</by_ru>
+      <columns>dbh.mean, dbh.sd, dbh.p5, dbh.p95, height.mean, height.sd, age.mean,age.sd,
+		if(height&lt;5,1,0).sum,if(height&gt;5 and height&lt;10,1,0).sum, if(height&gt;10 and height&lt;15,1,0).sum, if(height&gt;15 and height&lt;20,1,0).sum, 
+		if(height&gt;20 and height&lt;25,1,0).sum, if(height&gt;25 and height&lt;30,1,0).sum, if(height&gt;30 and height&lt;35,1,0).sum, if(height&gt;35 and height&lt;40,1,0).sum, 
+		if(height&gt;40 and height&lt;45,1,0).sum, if(height&gt;45 and height&lt;50,1,0).sum, if(height&gt;=50,1,0).sum</columns>
+    </dynamicstand>
+    <tree>
+      <!-- individual tree output -->
+      <enabled>true</enabled>
+      <condition>mod(year,10)=0</condition>
+      <!-- modulo: mod(year,10)=0 -->
+      <filter/>
+    </tree>
+    <treeremoved>
+      <!-- individual tree output -->
+      <enabled>true</enabled>
+      <filter/>
+    </treeremoved>
+    <stand>
+      <enabled>false</enabled>
+      <condition>mod(year,10)=0</condition>
+    </stand>
+    <standdead>
+      <enabled>true</enabled>
+      <condition>mod(year,10)=0</condition>
+    </standdead>
+    <production_month>
+      <enabled>false</enabled>
+    </production_month>
+    <management>
+      <enabled>false</enabled>
+    </management>
+    <sapling>
+      <enabled>false</enabled>
+      <condition/>
+    </sapling>
+    <saplingdetail>
+      <enabled>false</enabled>
+      <condition/>
+      <minDbh/>
+    </saplingdetail>
+    <carbon>
+      <enabled>true</enabled>
+      <condition/>
+      <conditionRU>mod(year,10)=0</conditionRU>
+    </carbon>
+    <carbonflow>
+      <enabled>false</enabled>
+      <condition/>
+      <conditionRU>mod(year,10)=0</conditionRU>
+    </carbonflow>
+    <dynamic>
+      <!-- clipboard -->
+      <!-- free defined output that uses expressions/filter on all trees of the simulation -->
+      <enabled>true</enabled>
+      <columns> dbh.mean, dbh.max, dbh.min, dbh.p5, dbh.p25, dbh.p75, dbh.p95, height.mean, height.max, height.min, height.p5,height.p95, height.p25,height.p75, stress.mean, stress.max, if(stress&gt;0,1,0).sum, if(stress&gt;0,stress,0).sum, if(dbh&gt;0,1,0).sum, leafarea.sum
+      </columns>
+    </dynamic>
+    <water>
+      <enabled>true</enabled>
+      <condition/>
+      <conditionRU>in(year, 0,1,2,3,50, 100, 200, 300, 400, 500, 1000)</conditionRU>
+    </water>
+    <landscape_removed>
+      <enabled>false</enabled>
+      <includeHarvest>false</includeHarvest>
+      <includeNatural>false</includeNatural>
+      <dbhClasses/>
+      <condition/>
+    </landscape_removed>
+    <barkbeetle>
+      <enabled>false</enabled>
+    </barkbeetle>
+    <wind>
+      <enabled>false</enabled>
+    </wind>
+    <fire>
+      <enabled>false</enabled>
+    </fire>
+    <landscape_removed>
+      <enabled>false</enabled>
+      <includeHarvest>false</includeHarvest>
+      <includeNatural>true</includeNatural>
+    </landscape_removed>
+    <!-- ABE (management) -->
+    <abeStand>
+      <enabled>false</enabled>
+    </abeStand>
+    <abeStandDetail>
+      <enabled>false</enabled>
+    </abeStandDetail>
+    <abeUnit>
+      <enabled>false</enabled>
+    </abeUnit>
+    <abeStandRemoval>
+      <enabled>false</enabled>
+    </abeStandRemoval>
+    <!-- Outputs related to SVD -->
+    <svdgpp>
+      <enabled>false</enabled>
+    </svdgpp>
+    <svdindicator>
+      <enabled>false</enabled>
+      <indicators>
+        <shannonIndex>false</shannonIndex>
+        <abovegroundCarbon>false</abovegroundCarbon>
+        <totalCarbon>false</totalCarbon>
+        <volume>false</volume>
+        <crownCover>false</crownCover>
+        <LAI>false</LAI>
+        <basalArea>false</basalArea>
+        <stemDensity>false</stemDensity>
+        <saplingDensity>false</saplingDensity>
+        <speciesProportions>false</speciesProportions>
+        <disturbanceHistory>false</disturbanceHistory>
+      </indicators>
+    </svdindicator>
+    <svdstate>
+      <enabled>false</enabled>
+    </svdstate>
+    <svduniquestate>
+      <enabled>false</enabled>
+      <condition/>
+    </svduniquestate>
+    <devstage>
+      <!-- defines the cell size in meters. The value need to align with the 100m / 10m cells. 
+		Possible values are therfore: 10, 20, 50, 100 -->
+      <cellsize>10</cellsize>
+      <enabled>false</enabled>
+      <!-- The handling javascript object. See iland-model.org/Outputs+devstage for details -->
+      <handler>devStage</handler>
+      <!-- Filter function (variable: year) -->
+      <filter>mod(year,10)=0</filter>
+      <condition>mod(year,10)=0</condition>
+    </devstage>
+    <ecoviz>
+      <enabled>false</enabled>
+      <condition/>
+      <fileName/>
+    </ecoviz>
+  </output>
+  <modules>
+    <!-- section for "plugins" add a section for each plugin and enable/disable with 
+	   the "enabled" switch. 
+	   https://iland-model.org/disturbance+modules -->
+  </modules>
+  <user>
+    <!-- user defined settings (which can be accessed via Javascript) -->
+    <repUsed>1</repUsed>
+    <gcmUsed>whatever</gcmUsed>
+  </user>
+</project>
