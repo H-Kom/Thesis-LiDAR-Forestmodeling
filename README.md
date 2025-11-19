@@ -20,8 +20,7 @@ The workflow is designed to preprocess input files for each AOI (Area of Interes
 
 1. **Allometries**
 
-   * Use `allometric_models.sh` in the `allometries` folder to test different regression models.
-   * Extract species-specific coefficients for predicting DBH from tree height.
+   * Use `allometric_models.sh` in the `allometries` folder to test different regression models and extract species-specific coefficients for predicting DBH from tree height.
 
 2. **Preprocessing**
 
