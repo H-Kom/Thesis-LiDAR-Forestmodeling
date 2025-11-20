@@ -9,7 +9,7 @@ The workflow is designed to preprocess input files for each AOI (Area of Interes
 
 * **allometries**: Contains code to test different allometric models and extract species-specific coefficients.
 * **init**: Contains everything needed for initialization, including creating input files, an optional spin-up routine, and updating project files.
-* **setups**: Contains project files for two different setups and climate scenarios. The project files are modified versions of the [iLand Demo landscape](https://iland-model.org/download)
+* **setups**: Contains project files for two different setups and climate scenarios. The project files are modified versions of the [iLand Demo landscape](https://iland-model.org/download) project file.
 
 
 ### Scripts
